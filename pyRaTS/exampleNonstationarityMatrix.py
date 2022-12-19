@@ -13,7 +13,6 @@ import pyExSi as ex
 import matplotlib.pyplot as plt
 import pyRaTS as ts
 import FLife
-#from mpl_toolkits.mplot3d import axes3d, Axes3D 
 
 ''' aims of this example:
 Three synthetic time series are generated; one is stationary (sig_stat) and two are 
@@ -107,6 +106,7 @@ for sig in sigs:
     respsig  =  sig.der_response(f,H)
     respsig.est_nonstat(Nf = 100,olap=2,fu = 500,wfunc = sp.signal.windows.boxcar)
     respsig.plot()
+    respsig.plot_psd()
     respsig.plot_nonstat(func=['Mxx'])
     respsigs.append(respsig)
     resp_gyy,resp_nonstat = sig.der_statResponse(f,H)
@@ -124,3 +124,5 @@ ts.plot_fds(FDS_DK)
 ''' Comparison of FDS for different methods ''' 
 sig_ns200to400.plot_fds()
 
+
+# %%

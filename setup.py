@@ -5,10 +5,10 @@ with open('README.rst', 'r') as fh:
 
 setuptools.setup(
     name='pyRaTS',                     
-    version='0.11',                        
+    version='0.15',                        
     author='Arvid Trapp',
     author_email='arvid.trapp@hm.edu',
-    url='https://gitlab.lrz.de/000000005F5D2760/pyRaTS',
+    url='https://github.com/ArvidTrapp/pyRaTS',
     maintainer='Arvid Trapp, Peter Wolfsteiner',
     maintainer_email='arvid.trapp@hm.edu',                    
     description='processing of (RAndom) TimeSeries for vibration fatigue',

@@ -452,6 +452,10 @@ def plot_nonstat(inp,func = 'Mxx'):
             def_clabl1 = '$R_{{'+2*inp['var']+'}}$ ($\mu_4$-coverage: {p:.2f}%) [('+inp['unit']+')$^4$]'.format(p = inp['m4rep'])
             def_clabl2 = '$R_{'+2*inp['var']+',stat}$ [('+inp['unit']+')$^4$]'
         elif func == 'Rxx':
+            quant = [inp['Rxx_sym']]
+            def_title = 'non-stationarity matrix (symmetric)'
+            def_clabl1 = '$R_{{'+2*inp['var']+'}}$ ($\mu_4$-coverage: {p:.2f}%) [('+inp['unit']+')$^4$]'.format(p = inp['m4rep'])
+        elif func == 'Rxx_full':
             quant = [inp['Rxx_sym'],inp['Rxx_stat']]
             def_title = 'non-stationarity matrix (symmetric)'
             def_clabl1 = '$R_{{'+2*inp['var']+'}}$ ($\mu_4$-coverage: {p:.2f}%) [('+inp['unit']+')$^4$]'.format(p = inp['m4rep'])
@@ -465,6 +469,12 @@ def plot_nonstat(inp,func = 'Mxx'):
             def_clabl1 = '$M_{{'+2*inp['var']+'}}$ [('+inp['unit']+')$^4$] (' + def_labl1 +'/'+ def_labl2 + '/$\mu_4$-coverage: {p:.2f}%)'.format(p = inp['m4rep'])
             def_clabl2 = '$M_{'+2*inp['var']+'}$ [('+inp['unit']+')$^4$] (' + def_labl3 +'/'+ def_labl2 + ')'
         elif func == 'Mxx':
+            quant = [inp['Mxx_sym']]
+            def_title = 'non-stationarity moment matrix (symmetric)'
+            def_labl1 = '$\mu_{{4,ns}}$ = {val:.2f}'.format(val = np.sum(quant[0]))
+            def_labl2 = '$\mu_4$ = {val:.2f}'.format(val = inp['moms'][4]) 
+            def_clabl1 = '$M_{{'+2*inp['var']+'}}$ [('+inp['unit']+')$^4$] (' + def_labl1 +'/'+ def_labl2 + '/$\mu_4$-coverage: {p:.2f}%)'.format(p = inp['m4rep'])
+        elif func == 'Mxx_full':
             quant = [inp['Mxx_sym'],inp['Mxx_stat']]
             def_title = 'non-stationarity moment matrix (symmetric)'
             def_labl1 = '$\mu_{{4,ns}}$ = {val:.2f}'.format(val = np.sum(quant[0]))
@@ -480,7 +490,7 @@ def plot_nonstat(inp,func = 'Mxx'):
             def_labl3 = '$c_{{4,stat}}$ = {val:.2f}'.format(val = 0) 
             def_clabl1 = '$C_{{'+2*inp['var']+'}}$ [('+inp['unit']+')$^4$] (' + def_labl1 +'/'+ def_labl2 + '/$\mu_4$-coverage: {p:.2f}%)'.format(p = inp['m4rep'])
             def_clabl2 = '$C_{'+2*inp['var']+'}$ [('+inp['unit']+')$^4$] (' + def_labl3 +'/'+ def_labl2 + ')'
-        elif func == 'Cxx':
+        elif func == 'Cxx_full':
             quant = [inp['Cxx_sym'],inp['Cxx_stat']]
             def_title = 'non-stationarity cumulant matrix (symmetric)'
             def_labl1 = '$c_{{4,ns}}$ = {val:.2f}'.format(val = np.sum(quant[0]))
@@ -488,36 +498,54 @@ def plot_nonstat(inp,func = 'Mxx'):
             def_labl3 = '$c_{{4,stat}}$ = {val:.2f}'.format(val = 0) 
             def_clabl1 = '$C_{{'+2*inp['var']+'}}$ [('+inp['unit']+')$^4$] (' + def_labl1 +'/'+ def_labl2 + '/$\mu_4$-coverage: {p:.2f}%)'.format(p = inp['m4rep'])
             def_clabl2 = '$C_{'+2*inp['var']+'}$ [('+inp['unit']+')$^4$] (' + def_labl3 +'/'+ def_labl2 + ')'
+        elif func == 'Cxx':
+            quant = [inp['Cxx_sym']]
+            def_title = 'non-stationarity cumulant matrix (symmetric)'
+            def_labl1 = '$c_{{4,ns}}$ = {val:.2f}'.format(val = np.sum(quant[0]))
+            def_labl2 = '$c_4$ = {val:.2f}'.format(val = inp['moms'][4]-3*inp['moms'][2]**2) 
+            def_clabl1 = '$C_{{'+2*inp['var']+'}}$ [('+inp['unit']+')$^4$] (' + def_labl1 +'/'+ def_labl2 + '/$\mu_4$-coverage: {p:.2f}%)'.format(p = inp['m4rep'])
         elif func == 'Axx_asym':
             quant = [inp['Axx'],inp['Axx_stat']]
             def_title  = '    modulation matrix'
             def_clabl1 = '$A_{'+2*inp['var']+'}}$ [-] ($\mu_4$-coverage: {p:.2f}%)'.format(p = inp['m4rep'])
             def_clabl2 = '$A_{'+2*inp['var']+',stat}$ [-]'
-        elif func == 'Axx':
+        elif func == 'Axx_full':
             quant = [inp['Axx_sym'],inp['Axx_stat']]
             def_title = '    modulation matrix (symmetric)'
             def_clabl1 = '$A_{'+2*inp['var']+'}}$ [-] ($\mu_4$-coverage: {p:.2f}%)'.format(p = inp['m4rep'])
-            def_clabl2 = '$A_{'+2*inp['var']+',stat}$ [-]'   
+            def_clabl2 = '$A_{'+2*inp['var']+',stat}$ [-]'  
+        elif func == 'Axx':
+            quant = [inp['Axx_sym']]
+            def_title = '    modulation matrix (symmetric)'
+            def_clabl1 = '$A_{'+2*inp['var']+'}}$ [-] ($\mu_4$-coverage: {p:.2f}%)'.format(p = inp['m4rep'])
         elif func == 'Kxx_asym':
             quant = [inp['Kxx'],inp['Kxx_stat']]
             def_title  = 'non-stationarity covariance matrix'
             def_clabl1 = '$K_{{'+2*inp['var']+'}}$ ($\mu_4$-coverage: ' + str("%.2f"% inp['m4rep']) + '%) [('+inp['unit']+')$^4$]'
             def_clabl2 = '$K_{'+2*inp['var']+'}$ [('+inp['unit']+')$^4$]'
-        elif func == 'Kxx':
+        elif func == 'Kxx_full':
             quant = [inp['Kxx_sym'],inp['Kxx_stat']]
             def_title = 'non-stationarity covariance matrix (symmetric)'
             def_clabl1 = '$K_{{'+2*inp['var']+'}}$ ($\mu_4$-coverage: ' + str("%.2f"% inp['m4rep']) + '%) [('+inp['unit']+')$^4$]'
             def_clabl2 = '$K_{'+2*inp['var']+'}$ [('+inp['unit']+')$^4$]'
+        elif func == 'Kxx':
+            quant = [inp['Kxx_sym']]
+            def_title = 'non-stationarity covariance matrix (symmetric)'
+            def_clabl1 = '$K_{{'+2*inp['var']+'}}$ ($\mu_4$-coverage: ' + str("%.2f"% inp['m4rep']) + '%) [('+inp['unit']+')$^4$]'
         elif func == 'rhoxx_asym':
             quant = [inp['rhoxx'],inp['Axx_stat']]
             def_title = 'non-stationarity synchronicity matrix'
             def_clabl1 = '$\\rho_{{'+2*inp['var']+'}}$ ($\mu_4$-coverage: {p:.2f}%) [-]'.format(p = inp['m4rep'])
             def_clabl2 = '$A_{'+2*inp['var']+',stat}$ [-]'   
-        elif func == 'rhoxx':
+        elif func == 'rhoxx_full':
             quant = [inp['rhoxx_sym'],inp['Axx_stat']]
             def_title = 'non-stationarity synchronicity matrix (symmetric)'
             def_clabl1 = '$\\rho_{{'+2*inp['var']+'}}$ ($\mu_4$-coverage: {p:.2f}%) [-]'.format(p = inp['m4rep'])
             def_clabl2 = '$A_{'+2*inp['var']+',stat}$ [-]'   
+        elif func == 'rhoxx':
+            quant = [inp['rhoxx_sym']]
+            def_title = 'non-stationarity synchronicity matrix (symmetric)'
+            def_clabl1 = '$\\rho_{{'+2*inp['var']+'}}$ ($\mu_4$-coverage: {p:.2f}%) [-]'.format(p = inp['m4rep'])
         cnt = 0    
         for qq in quant:
             cnt = cnt +1 
